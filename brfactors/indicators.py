@@ -13,7 +13,9 @@ def pit_matrix(financial_col, stock_df, data_index, is_ltm = False):
     financial_info_long['startDate'] = financial_info_long.index.map(lambda row: financial_info_long.loc[row, 'publication_date'] if not financial_info_long.duplicated(subset = ['statement_date', 'publication_date'], keep='first').loc[row] else financial_info_long.loc[row, 'collection_date'])
 
     # Fills the pit_data dataframe, from the publication date onwards, with the financial information of the statement date
-    pit_data = financial_info_long.pivot_table(columns = 'statement_date', values = financial_col, index = 'startDate').reindex(data_index).ffill()
+    # A publication on a non-trading day takes effect on the next trading day
+    pit_data = financial_info_long.pivot_table(columns = 'statement_date', values = financial_col, index = 'startDate')
+    pit_data = pit_data.reindex(pit_data.index.union(data_index)).ffill().reindex(data_index)
 
     if is_ltm:
         # Applies a sideways rolling sum on the dataframe for the LTM fields
