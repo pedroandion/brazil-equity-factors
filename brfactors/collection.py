@@ -68,7 +68,7 @@ def get_sectors(tickers_str):
     return sectors
 
 def filter_indexes_comp(indexes: pd.DataFrame, tickers_str: str) -> pd.DataFrame:
-    '''Filters the companies in the indices according to liquidity and sector.'''
+    '''Adds the sector and the ticker without the exchange code to the composition of the indices.'''
 
     # Creates a dataframe with the companies' sectors
     sectors = get_sectors(tickers_str)
@@ -76,7 +76,7 @@ def filter_indexes_comp(indexes: pd.DataFrame, tickers_str: str) -> pd.DataFrame
     # Standardizes the date format
     indexes['Date'] = pd.to_datetime(indexes['Date'], format = '%Y-%m-%d')
 
-    # Adds the average volume to the dataframe
+    # Adds the sector to the dataframe
     indexes = pd.merge(indexes, sectors, left_on = 'Ticker', right_on = 'Empresas', how = 'left').drop('Empresas', axis = 1)
 
     # Adds the column with the stock's Ticker without the exchange code
