@@ -1,0 +1,13 @@
+bizdays==1.0.16
+ipykernel==6.29.5
+matplotlib==3.10.1
+nbconvert==7.16.6
+numpy==2.2.4
+pandas==2.2.3
+QuantStats==0.0.64
+requests==2.32.3
+scipy==1.15.2
+seaborn==0.13.2
+statsmodels==0.14.4
+tqdm==4.67.1
+workadays==2023.12.30

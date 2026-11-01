@@ -1,0 +1,22 @@
+# Runs the analysis notebooks on a clean machine, using only the files in this repository.
+# 01 and 02 are left out because they need a licensed Comdinheiro account and the raw files.
+name: Run notebooks
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        notebook: [03_historical_betas, 04_factor_screening, 05_multi_factor_strategy]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      - run: python -m nbconvert --to notebook --execute --ExecutePreprocessor.timeout=None --output-dir /tmp/executed ${{ matrix.notebook }}.ipynb
