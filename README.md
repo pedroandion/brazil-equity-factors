@@ -104,7 +104,7 @@ pip install -r requirements.txt
 python -m nbconvert --to notebook --execute --inplace 04_factor_screening.ipynb
 ```
 
-They do not need to run in order, because the files they read are in the repository. `03_` rewrites `data/ff_factors.csv.gz` and `factors/ivol.csv.gz`, which `04_` reads, so run it before the others or not at all. On a laptop, `03_` takes about 10 minutes, `04_` about 45 and `05_` about 20. The workflow in `.github/workflows/run-notebooks.yml` runs the three on a clean Linux machine.
+They do not need to run in order, because the files they read are in the repository. `03_` rewrites `data/ff_factors.csv.gz` and `factors/ivol.csv.gz`, which `04_` reads, so run it before the others or not at all. On a laptop, `03_` takes about 7 minutes, `04_` about 40 and `05_` about 20. The workflow in `.github/workflows/run-notebooks.yml` runs the three on a clean Linux machine.
 
 ## License
 
