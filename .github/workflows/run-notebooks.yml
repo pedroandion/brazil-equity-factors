@@ -20,3 +20,7 @@ jobs:
           python-version: "3.13"
       - run: pip install -r requirements.txt
       - run: python -m nbconvert --to notebook --execute --ExecutePreprocessor.timeout=None --output-dir /tmp/executed ${{ matrix.notebook }}.ipynb
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.notebook }}
+          path: /tmp/executed/
