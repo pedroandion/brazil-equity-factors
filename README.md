@@ -12,17 +12,17 @@ All results are before transaction costs.
 
 ### Multi-factor strategy (`05_multi_factor_strategy.ipynb`)
 
-The Combination holds up to 40 stocks, rebalanced every month: 20 from the Magic Formula and 10 each from LowVol Momentum and Quality. A stock picked by more than one strategy gets a larger weight.
+The Combination holds up to 30 stocks, rebalanced every month: 10 from each of the Magic Formula, LowVol Momentum and Quality. A stock picked by more than one strategy gets a larger weight.
 
 | | Magic Formula | LowVol Momentum | Quality | Combination | Ibovespa | CDI |
 |---|---|---|---|---|---|---|
-| Total return | 1162.4% | 1705.9% | 438.8% | **1317.9%** | 370.6% | 420.7% |
-| Annualized return | 15.6% | 18.0% | 10.1% | **16.4%** | 9.3% | 9.9% |
-| Volatility | 19.3% | 19.7% | 21.9% | **19.0%** | 23.4% | 0.2% |
-| Sharpe ratio | 0.36 | 0.46 | 0.12 | **0.40** | 0.09 | 0.00 |
-| Maximum drawdown | -43.7% | -47.3% | -49.9% | **-44.7%** | -48.6% | 0.0% |
+| Total return | 1561.6% | 1705.9% | 438.8% | **1489.6%** | 370.6% | 420.7% |
+| Annualized return | 17.4% | 18.0% | 10.1% | **17.1%** | 9.3% | 9.9% |
+| Volatility | 19.6% | 19.7% | 21.9% | **19.0%** | 23.4% | 0.2% |
+| Sharpe ratio | 0.44 | 0.46 | 0.12 | **0.43** | 0.09 | 0.00 |
+| Maximum drawdown | -44.4% | -47.3% | -49.9% | **-45.3%** | -48.6% | 0.0% |
 
-Regressing the Combination on the NEFIN factors gives an alpha of 0.35% per month (p-value of 2.5%), with exposures of 0.85 to the market, 0.28 to SMB, -0.11 to HML and 0.11 to WML, and an adjusted R² of 84%.
+Regressing the Combination on the NEFIN factors gives an alpha of 0.36% per month (p-value of 3.3%), with exposures of 0.86 to the market, 0.25 to SMB, -0.08 to HML and 0.12 to WML, and an adjusted R² of 82%.
 
 ### Factor screening (`04_factor_screening.ipynb`)
 
