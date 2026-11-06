@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        notebook: [03_historical_betas, 04_factor_screening, 05_multi_factor_strategy]
+        notebook: [03_historical_betas, 04_factor_screening, 05_multi_factor_strategy, 06_factor_trend_long_only]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
