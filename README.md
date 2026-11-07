@@ -39,6 +39,8 @@ The strategy holds the long side of six factors: five composites (Value, Profita
 
 The trend adds little over equal weights: with the trend signals shuffled among the factors, the strategy beats only 68% of the draws. The basket holds about 69 stocks, with an effective N of 52 and a largest weight of 3.8% on average and 6.9% at its peak. The Low Risk composite has the largest average weight, 25%. Its shape looks like the Combination's mostly because both buy from the same universe: the basket has an R² of 0.88 on the equal-weighted investable universe.
 
+The notebook first applies the same trend index to single stocks. Over the same window, the 20 stocks with the strongest trend return 19.4% a year with a daily rebalance (Sharpe ratio of 0.53, turnover of about 106% per month) and 15.7% with a monthly rebalance (Sharpe ratio of 0.36, about 46% of the stocks replaced per month).
+
 ### Factor screening (`04_factor_screening.ipynb`)
 
 Each factor is sorted into quintiles every month. The table shows the annualized mean return of the best quintile minus the worst, for the top and bottom of the ranking.
@@ -70,7 +72,7 @@ The local long-short factors have these annual mean returns: market excess 2.1%,
 | `03_historical_betas` | Builds local factors (market, SMB, HML, RMW, CMA, WML, BAB), rolling betas for four models in three windows, and idiosyncratic volatility | Yes |
 | `04_factor_screening` | Tests the 33 factors by quintile and by long-short percentile | Yes |
 | `05_multi_factor_strategy` | Combines three strategies and tests the number of stocks and the rebalancing schedule | Yes |
-| `06_factor_trend_long_only` | Weights six factors by the trend of their long legs and holds their stocks in a single basket, with its concentration | Yes |
+| `06_factor_trend_long_only` | Applies the trend index of `05_` to single stocks and to six factors, whose long legs it weights by their trend in a single basket, with its concentration | Yes |
 
 `01` and `02` stop at their first cell with a message that explains what is missing. The functions shared by the notebooks are in the `brfactors` package.
 
