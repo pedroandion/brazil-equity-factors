@@ -2,7 +2,7 @@
 
 Data collection, factor construction and backtests of equity factor strategies in the Brazilian stock market, from January 2009 to July 2026.
 
-The repository tests 32 factors one by one and combines three strategies in a long-only multi-factor portfolio. The companion repository, [magic-formula-brazil](https://github.com/pedroandion/magic-formula-brazil), studies Joel Greenblatt's Magic Formula in more depth and holds the article.
+The repository tests 33 factors one by one and combines three strategies in a long-only multi-factor portfolio. The companion repository, [magic-formula-brazil](https://github.com/pedroandion/magic-formula-brazil), studies Joel Greenblatt's Magic Formula in more depth and holds the article.
 
 ![Multi-factor strategy against the Ibovespa](docs/combination_vs_ibov.png)
 
@@ -26,19 +26,18 @@ Regressing the Combination on the NEFIN factors gives an alpha of 0.36% per mont
 
 ### Long-only factor trend basket (`06_factor_trend_long_only.ipynb`)
 
-Every month, the trend index of `05_` is applied to the long leg of each of the 32 factors. The 10 factors with the best trend are chosen, and all their stocks go into one basket. A stock held by more than one chosen factor gets a larger weight. The window starts in February 2010, the first month in which a factor has a trend signal.
+The strategy holds the long side of six factors: five composites (Value, Profitability, Growth, Leverage and Low Risk) and Momentum. Size, Reversal and the Magic Formula are left out. Each long leg is the factor's top quintile. Every month, the trend index of `05_` is applied to the return of each leg. A factor with a negative trend gets no weight, and the others get weights proportional to their trend. All their stocks go into one basket, so a stock held by more than one factor gets a larger weight. The window starts in February 2010, the first month in which a factor has a trend signal.
 
-| | Top 10 factors (EQ10) | Top 10, only positive trends, rest in CDI | All 32 factors, no trend | 05 Combination | Ibovespa | CDI |
-|---|---|---|---|---|---|---|
-| Annualized return | **13.6%** | 10.9% | 8.6% | 15.7% | 6.1% | 9.9% |
-| Volatility | 20.5% | 12.0% | 21.7% | 19.2% | 22.8% | 0.2% |
-| Sharpe ratio | **0.27** | 0.13 | 0.06 | 0.36 | -0.04 | 0.00 |
-| Maximum drawdown | -50.3% | -30.3% | -50.8% | -45.3% | -48.6% | 0.0% |
-| NEFIN alpha per month (t-stat) | **0.45% (3.3)** | 0.09% (0.6) | 0.19% (1.5) | 0.54% (3.1) | | |
+| | Trend | Same six factors, equal weights | 05 Combination | Ibovespa | CDI |
+|---|---|---|---|---|---|
+| Annualized return | **12.6%** | 12.2% | 15.7% | 6.1% | 9.9% |
+| Volatility | 19.4% | 19.8% | 19.2% | 22.8% | 0.2% |
+| Sharpe ratio | **0.22** | 0.21 | 0.36 | -0.04 | 0.00 |
+| Maximum drawdown | -45.6% | -45.7% | -45.3% | -48.6% | 0.0% |
+| NEFIN alpha per month (t-stat) | 0.32% (2.2) | 0.40% (3.1) | 0.52% (3.2) | | |
+| Turnover per month | 29% | 18% | | | |
 
-The legs hold the 10 stocks with the highest signal. The second column weights the 10 factors by `max(trend, 0)` and keeps the rest in the CDI. The EQ10 basket holds about 59 stocks, with an effective N of 45, a largest weight of 5.0% on average and 8.0% at its peak, and a turnover of 32% per month. The notebook also tests legs made of the top quintile, the 32 factors without the five composites, and other allocation rules.
-
-EQ10 beats all of 500 random choices of 10 factors, whose mean is 8.5%, and its result fades slowly when the signal is lagged (11.2% with 21 days of extra lag). Its shape looks like the Combination's mostly because both buy from the same universe: EQ10 has an R² of 0.93 on the equal-weighted investable universe, and the two portfolios share only about a third of their weight. With only the five composites and the six market factors, choosing the 3 to 6 with the best trend returns 16.8% to 13.3% a year, but that number of factors was chosen in sample.
+The trend adds little over equal weights: with the trend signals shuffled among the factors, the strategy beats only 68% of the draws. The basket holds about 69 stocks, with an effective N of 52 and a largest weight of 3.8% on average and 6.9% at its peak. The Low Risk composite has the largest average weight, 25%. Its shape looks like the Combination's mostly because both buy from the same universe: the basket has an R² of 0.88 on the equal-weighted investable universe.
 
 ### Factor screening (`04_factor_screening.ipynb`)
 
@@ -48,15 +47,15 @@ Each factor is sorted into quintiles every month. The table shows the annualized
 |---|---|---|
 | Momentum | 16.69% | 6.67% |
 | Return on Capital | 13.91% | 13.91% |
+| Low Risk Composite | 11.65% | 18.24% |
 | IVOL | 10.90% | 19.33% |
 | Return on Equity | 10.63% | 21.41% |
-| Earnings Yield (Magic Formula) | 8.97% | 29.70% |
 | ... | | |
 | Investments | -3.34% | 69.28% |
 | Size | -3.67% | 66.43% |
 | Reversal | -11.07% | 20.83% |
 
-None of the 32 factors is significant at the 5% level with the test used (see [Limitations](#limitations)).
+None of the 33 factors is significant at the 5% level with the test used (see [Limitations](#limitations)).
 
 ### Factor portfolios (`03_historical_betas.ipynb`)
 
@@ -69,9 +68,9 @@ The local long-short factors have these annual mean returns: market excess 2.1%,
 | `01_data_collection` | Collects prices, volume, index composition, benchmarks and financial statements from the Comdinheiro API | No: needs a licensed account |
 | `02_factor_construction` | Builds the point-in-time indicators and the daily factor files | No: needs the raw financial statements |
 | `03_historical_betas` | Builds local factors (market, SMB, HML, RMW, CMA, WML, BAB), rolling betas for four models in three windows, and idiosyncratic volatility | Yes |
-| `04_factor_screening` | Tests the 32 factors by quintile and by long-short percentile | Yes |
+| `04_factor_screening` | Tests the 33 factors by quintile and by long-short percentile | Yes |
 | `05_multi_factor_strategy` | Combines three strategies and tests the number of stocks and the rebalancing schedule | Yes |
-| `06_factor_trend_long_only` | Chooses the factors whose long legs have the best trend and holds them in a single basket, with its concentration | Yes |
+| `06_factor_trend_long_only` | Weights six factors by the trend of their long legs and holds their stocks in a single basket, with its concentration | Yes |
 
 `01` and `02` stop at their first cell with a message that explains what is missing. The functions shared by the notebooks are in the `brfactors` package.
 
@@ -85,9 +84,8 @@ The local long-short factors have these annual mean returns: market excess 2.1%,
 ## Limitations
 
 - **No costs.** Brokerage, stock lending and market impact are left out. They matter most for the long-short portfolios and for short rebalancing periods.
-- **In-sample results.** The strategy, the parameter tests and the trend index in `05_` use the same sample, and nothing was checked out of sample. The trend index is exploratory. So is its use in `06_`, where several allocation rules were compared on the same sample.
-- **Correlated factors in `06_`.** The 32 factors include five composites together with their components, so similar factors can be chosen together. The notebook measures this, and repeats the tests without the composites.
-- **Statistical test.** The screening uses an unpaired t-test between the first and the fifth quintile. It ignores the correlation between them, so it tends to understate significance. There is also no adjustment for testing 32 factors.
+- **In-sample results.** The strategy, the parameter tests and the trend index in `05_` use the same sample, and nothing was checked out of sample. The trend index is exploratory. So is its use in `06_`, whose design was chosen after other allocation rules had been tried on the same sample.
+- **Statistical test.** The screening uses an unpaired t-test between the first and the fifth quintile. It ignores the correlation between them, so it tends to understate significance. There is also no adjustment for testing 33 factors.
 - **Delistings.** A stock that stops trading keeps a zero return until the next rebalance.
 - **Trimming.** Z-scores beyond 2 are discarded, not capped, so stocks with extreme values leave the ranking.
 - **Sector labels.** The provider's `Financeiro` label is broader than GICS Financials: it also holds real estate companies and some holding companies, while other holdings, such as Bradespar, are labeled as materials. Moving a few companies in or out of the filter changes the Magic Formula results noticeably, because it shifts the rank of all the others.
